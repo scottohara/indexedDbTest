@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<title>IndexedDB Test</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+		<script src="webSql.js" type="text/javascript"></script>
+		<script src="indexedDb.js" type="text/javascript"></script>
+		<script src="indexedDBTest.js" type="text/javascript"></script>
+		<link href="indexedDBTest.css" media="screen" rel="stylesheet" type="text/css"/>
+	</head>
+	<body id="mainBody">
+		<button id="go">GO!</button>
+		<table>
+			<tr>
+				<th>Test/Step Name</th>
+				<th>WebSQL Result</th>
+				<th>WebSQL Time</th>
+				<th>IndexedDB Result</th>
+				<th>IndexedDB Time</th>
+			</tr>
+			<tr>
+				<td>Initialise Database Schema/Data</td>
+				<td id="init-db-websql-result">Initialising...</td>
+				<td id="init-db-websql-time"></td>
+				<td id="init-db-idb-result">Initialising...</td>
+				<td id="init-db-idb-time"></td>
+			</tr>
+			<tr>
+				<td>Count Programs</td>
+				<td id="count-programs-websql-result"></td>
+				<td id="count-programs-websql-time"></td>
+				<td id="count-programs-idb-result"></td>
+				<td id="count-programs-idb-time"></td>
+			</tr>
+			<tr>
+				<td>Count Series</td>
+				<td id="count-series-websql-result"></td>
+				<td id="count-series-websql-time"></td>
+				<td id="count-series-idb-result"></td>
+				<td id="count-series-idb-time"></td>
+			</tr>
+			<tr>
+				<td>Count Episodes</td>
+				<td id="count-episodes-websql-result"></td>
+				<td id="count-episodes-websql-time"></td>
+				<td id="count-episodes-idb-result"></td>
+				<td id="count-episodes-idb-time"></td>
+			</tr>
+			<tr>
+				<td>Schedule</td>
+				<td id="schedule-websql-result"></td>
+				<td id="schedule-websql-time"></td>
+				<td id="schedule-idb-result"></td>
+				<td id="schedule-idb-time"></td>
+			</tr>
+		</table>
+	</body>
+</html>
