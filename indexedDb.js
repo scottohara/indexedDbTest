@@ -187,42 +187,53 @@ IDBTest.prototype.schedule = function() {
 				episodeCount: 0,
 				watchedCount: 0,
 				recordedCount: 0,
-				expectedCount: 0
+				expectedCount: 0,
+				gotProgram: false,
+				gotEpisodes: false
 			};
 
 			var programRequest = this.db.transaction("programs").objectStore("programs").openCursor(webkitIDBKeyRange.only(Number(series.programId)));
 			programRequest.onsuccess = $.proxy(function(series) {
 				return $.proxy(function(event) {
 					series.programName = programRequest.result.value.name;
+					series.gotProgram = true;
+					updatePopulatedCount.call(this, series);
+				}, this);
+			}, this)(series);
 
-					var episodeRequest = this.db.transaction("episodes").objectStore("episodes").index("episodes_seriesId").openCursor(webkitIDBKeyRange.only(Number(series.id)));
-					episodeRequest.onsuccess = $.proxy(function(series) {
-						return $.proxy(function(event) {
-							var episodeCursor = episodeRequest.result;
-							if (episodeCursor) {
-								series.episodeCount++;
-								switch (episodeCursor.value.status) {
-									case "Watched":
-										series.watchedCount++;
-										break;
-									case "Recorded":
-										series.recordedCount++;
-										break;
-									case "Expected":
-										series.expectedCount++;
-										break;
-								};
-								episodeCursor.continue();
-							} else {
-								seriesList.push(series);
-								populatedCount++;
-								displaySchedule.call(this);
-							};
-						}, this);
-					}, this)(series);
+			var episodeRequest = this.db.transaction("episodes").objectStore("episodes").index("episodes_seriesId").openCursor(webkitIDBKeyRange.only(Number(series.id)));
+			episodeRequest.onsuccess = $.proxy(function(series) {
+				return $.proxy(function(event) {
+					var episodeCursor = episodeRequest.result;
+					if (episodeCursor) {
+						series.episodeCount++;
+						switch (episodeCursor.value.status) {
+							case "Watched":
+								series.watchedCount++;
+								break;
+							case "Recorded":
+								series.recordedCount++;
+								break;
+							case "Expected":
+								series.expectedCount++;
+								break;
+						};
+						episodeCursor.continue();
+					} else {
+						series.gotEpisodes = true;
+						updatePopulatedCount.call(this, series);
+					};
 				}, this);
 			}, this)(series);
 		}, this);
+	};
+
+	function updatePopulatedCount(series) {
+		if (series.gotProgram && series.gotEpisodes) {
+			seriesList.push(series);
+			populatedCount++;
+			displaySchedule.call(this);
+		};
 	};
 
 	function displaySchedule() {
