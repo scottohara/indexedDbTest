@@ -38,7 +38,8 @@ IDBTest.prototype.init = function(numPrograms, numSeries, numEpisodes, nowShowin
 			episodeId,
 			episodeRowId = 0,
 			isNowShowing,
-			isNotShowing;
+			isNotShowing,
+			seriesObj;
 
 	for (var i = 0; i < numPrograms; i++) {
 		programId = i + 1;
@@ -49,7 +50,11 @@ IDBTest.prototype.init = function(numPrograms, numSeries, numEpisodes, nowShowin
 			seriesRowId++;
 			isNowShowing = (0 === programId % 8 && 1 === seriesId);
 			isNotShowing = (0 === programId % 10 && 1 === seriesId);
-			seriesStore.put({ id: seriesRowId, name: "Series " + seriesId, programId: programId, nowShowing: (isNowShowing ? nowShowing[nowShowingIndex] : null) });
+			seriesObj = { id: seriesRowId, name: "Series " + seriesId, programId: programId };
+			if (isNowShowing) {
+				seriesObj.nowShowing = nowShowing[nowShowingIndex];
+			}
+			seriesStore.put(seriesObj);
 
 			for (var k = 0; k < numEpisodes; k++) {
 				episodeId = k + 1;
